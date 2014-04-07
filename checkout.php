@@ -1,8 +1,10 @@
 <?php session_start(); 
 if(isset($_POST) && !empty($_POST)){
 	require_once('config.php');
+	$host = $config['host'];
+	$db = $config['db'];
 	try{
-		$dbh = new PDO("mysql:host=$config['host'];dbname=$config['db']", $config['user'], $config['password']);
+		$dbh = new PDO("mysql:host=$host;dbname=$db", $config['user'], $config['password']);
 		$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 	catch (PDOException $e){
@@ -12,15 +14,26 @@ if(isset($_POST) && !empty($_POST)){
 	$address = $_POST['address'];
 	$email = $_POST['email'];
 	$phoneno = $_POST['phoneno'];
-	$basket = $_SESSION['basket'];
-	$sth = $dbh->prepare('INSERT INTO orders(name, address, email, phoneno, order) VALUES(:name, :address, :email, :phoneno, :order)');
-	$sth->bindParam('name',$name);
+	$basket = '<table><tr><th>Image</th><th>Name</th><th>Quantity</th><th>Price</th></tr>';
+	foreach($_SESSION['basket'] as $i){
+		if(is_int($i)) 
+			continue;
+		var_dump($i);
+		$basket .= '<tr><td><p><img src="products_images/'.$i['name'].'.jpg" width="50px" height="50px"></td><td>'.$i['name'].'</td><td>'.$i['count'].'</td><td class="price">'.$i['count']*$i['ourprice'].'</td></tr>';
+	}
+	$basket .='</table>';
+	$sth = $dbh->prepare("INSERT INTO orders(name,address,email, phoneno,order) VALUES (:name,:address,:email,:phoneno,:order)");
+	$sth->bindParam('name', $name);
 	$sth->bindParam('email', $email);
 	$sth->bindParam('phoneno', $phoneno);
 	$sth->bindParam('order', $basket);
 	$sth->bindParam('address', $address);
 	$sth->execute();
-	$result = $sth->fetch(PDO::FETCH_ASSOC);
+	if(1){
+		echo 'Done, Registered';
+	} else {
+		echo 'Try again';
+	}
 } else {
 ?>
 <!DOCTYPE html>
@@ -226,7 +239,7 @@ $("#shopMore").click(function(){
   <div class="container">
               
               <blockquote id="formBlock"> Please fill the following information to proceed:-<br/>
-                          <form id="form_final" method="post" action="/">
+                          <form id="form_final" method="post" action="checkout.php">
                           <table>
                           <tr><td>
                           <input type="text" title="name" name="name" class="input_field" placeholder="Name" required><br/>
@@ -264,7 +277,7 @@ $("#shopMore").click(function(){
                           </table>
                        
                           <div id="captchaError">Wrong Captcha. Fill the Captcha correctly to click Submit button</div>
-                          <button formaction="/" class="red_button" id="submitButton" type="submit">Submit</button>
+                          <button formaction="checkout.php" class="red_button" id="submitButton" type="submit">Submit</button>
                           </form>
                           </blockquote>
                           <script>
@@ -383,3 +396,6 @@ $(document).tooltip({
 
 </body>
 </html>
+<?php
+}
+?>

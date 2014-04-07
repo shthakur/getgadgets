@@ -1,7 +1,7 @@
 <?php 
 $config = array(
-'user' => 'getgadgets',
-'password'=>'euLwYJHzaCyncyje',
-'db'=>'getgadgets',
+'user' => 'getgadget',
+'password'=>'6VH5NHKs2nfWYdF2',
+'db'=>'getgadget',
 'host'=>'localhost'
 );
