@@ -14,13 +14,12 @@ if(isset($_POST) && !empty($_POST)){
 	$address = $_POST['address'];
 	$email = $_POST['email'];
 	$phoneno = $_POST['phoneno'];
-	$basket = '<table><tr><th>Image</th><th>Name</th><th>Quantity</th><th>Price</th></tr>';
+	$basket = '';
 	foreach($_SESSION['basket'] as $i){
 		if(is_int($i))
 			continue;
 		$basket .= '<tr><td><p><img src="products_images/'.$i['name'].'.jpg" width="50px" height="50px"></td><td>'.$i['name'].'</td><td>'.$i['count'].'</td><td class="price">'.$i['count']*$i['ourprice'].'</td></tr>';
 	}
-	$basket .='</table>';
 	$sth = $dbh->prepare("INSERT INTO orders( name, address, email, phoneno, basket) VALUES (:name,:address,:email,:phoneno,:basket)");
 	$sth->bindParam('name', $name);
 	$sth->bindParam('email', $email);
@@ -30,6 +29,7 @@ if(isset($_POST) && !empty($_POST)){
 	$sth->execute();
 	if(1){
 		echo 'Done, Registered';
+		echo '<a href="/getGadgets">Go Home </a>';
 	} else {
 		echo 'Try again';
 	}
