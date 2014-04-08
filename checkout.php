@@ -1,4 +1,4 @@
-<?php session_start(); 
+<?php session_start();
 if(isset($_POST) && !empty($_POST)){
 	require_once('config.php');
 	$host = $config['host'];
@@ -16,17 +16,16 @@ if(isset($_POST) && !empty($_POST)){
 	$phoneno = $_POST['phoneno'];
 	$basket = '<table><tr><th>Image</th><th>Name</th><th>Quantity</th><th>Price</th></tr>';
 	foreach($_SESSION['basket'] as $i){
-		if(is_int($i)) 
+		if(is_int($i))
 			continue;
-		var_dump($i);
 		$basket .= '<tr><td><p><img src="products_images/'.$i['name'].'.jpg" width="50px" height="50px"></td><td>'.$i['name'].'</td><td>'.$i['count'].'</td><td class="price">'.$i['count']*$i['ourprice'].'</td></tr>';
 	}
 	$basket .='</table>';
-	$sth = $dbh->prepare("INSERT INTO orders(name,address,email, phoneno,order) VALUES (:name,:address,:email,:phoneno,:order)");
+	$sth = $dbh->prepare("INSERT INTO orders( name, address, email, phoneno, basket) VALUES (:name,:address,:email,:phoneno,:basket)");
 	$sth->bindParam('name', $name);
 	$sth->bindParam('email', $email);
 	$sth->bindParam('phoneno', $phoneno);
-	$sth->bindParam('order', $basket);
+	$sth->bindParam('basket', $basket);
 	$sth->bindParam('address', $address);
 	$sth->execute();
 	if(1){
@@ -39,7 +38,7 @@ if(isset($_POST) && !empty($_POST)){
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-    <link rel="icon" href="images/logo.png" type="image/x-icon" />  
+    <link rel="icon" href="images/logo.png" type="image/x-icon" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Roorkee Delivers</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -68,8 +67,8 @@ if(isset($_POST) && !empty($_POST)){
 	margin: 0.5em 0;
 }
 
-.fve-video-wrapper iframe,  
-.fve-video-wrapper object,  
+.fve-video-wrapper iframe,
+.fve-video-wrapper object,
 .fve-video-wrapper embed {
 	position: absolute;
 	display: block;
@@ -107,15 +106,15 @@ span.work-section {
 		}
 	</style>
 
-	
+
 	<!--[if lt IE 9]>
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<link rel="stylesheet" href="content/themes/rkdl/css/ie8.css" />
 	<script src="content/themes/rkdl/js/plugins/swipe_ie.js"></script>
   <script src="content/themes/rkdl/js/ie.js"></script>
 	<![endif]-->
-	
-	
+
+
 
 </head>
 
@@ -139,9 +138,9 @@ span.work-section {
       </ul>
     </nav>
 	</header>
-   
+
 </div>
-<?php 
+<?php
 	if (isset($_GET["message"])){
 		if($_GET["message"]==1){
 			echo '<font color="green"><b style="position:relative; left:300px; top:80px;">Your order has been registered, we will get to you shortly</b></font><style> #footertext{position:absolute;bottom:0px;}</style> ';
@@ -166,14 +165,14 @@ span.work-section {
     </tr>
     <?php $total=0; foreach($_SESSION['basket'] as $i){
 		if(is_int($i)) continue;
-	
+
 		echo '<tr><td><p><img src="products_images/'.$i['name'].'.jpg" width="50px" height="50px"></td><td>'.$i['name'].'</td><td>'.'<input type="number" min = "1" size="10" value="'.$i['count'].'" class="quantity_count" name="'.$i['name'].'"></td><td class="price">'.$i['count']*$i['ourprice'].'</td><td class="last_child"><input type="hidden" class ="hiddenDelete" title="'.$i['name'].'"><img src="images/delete.png" alt="Delete" class="deleteButton"/></td></tr>';
 		$total+=$i['count']*$i['ourprice'];
 	}
 ?>
-<tr><td colspan="3">Total</td><td id="totaltd"><?php echo $total; ?></td><td colspan="2"></td></tr> 
-<script> 
-var intial_count,final_count; 
+<tr><td colspan="3">Total</td><td id="totaltd"><?php echo $total; ?></td><td colspan="2"></td></tr>
+<script>
+var intial_count,final_count;
 $(".quantity_count").hover(
 function(){intial_count =parseInt($(this).val(),10);},
 function(){ final_count = parseInt($(this).val(),10);
@@ -224,20 +223,20 @@ $(".deleteButton").click(function(){
       <br/>
 <button class="red_button" id="shopMore">Shop More</button>
 
-<button class="red_button" id="checkout_button">Checkout!</button> 
+<button class="red_button" id="checkout_button">Checkout!</button>
 
 <script>
 $("#shopMore").click(function(){
 	window.location.href="ordernow.php";
 });
-</script>   
+</script>
 	</div>
 </div>
-    
+
 
 <div class="full-width red" id="formfield">
   <div class="container">
-              
+
               <blockquote id="formBlock"> Please fill the following information to proceed:-<br/>
                           <form id="form_final" method="post" action="checkout.php">
                           <table>
@@ -249,7 +248,7 @@ $("#shopMore").click(function(){
                           <td>
                           <input type="email" title="email" name="email" class="input_field" placeholder="Email">
                           </td>
-                     
+
                           <td>
                           <input type="text" name="phoneno" placeholder="Phone No." required>
                           </td>
@@ -267,7 +266,7 @@ $("#shopMore").click(function(){
                           <?php $x= rand(0,9); $y= rand(0,9);
 						  $_SESSION['pass_phrase']= sha1($x+$y);
 						  echo $x.' + '.$y;
-						  ?>	
+						  ?>
                           </td>
                           <td>
                           <img src="images/refresh.png" id="refreshCaptcha">
@@ -275,14 +274,14 @@ $("#shopMore").click(function(){
                           </tr>
 
                           </table>
-                       
+
                           <div id="captchaError">Wrong Captcha. Fill the Captcha correctly to click Submit button</div>
                           <button formaction="checkout.php" class="red_button" id="submitButton" type="submit">Submit</button>
                           </form>
                           </blockquote>
                           <script>
 						  $("#formfield").toggle();
-						  
+
 						  $("#refreshCaptcha").css({
 							  "cursor":"pointer",
 							  "position":"relative",
@@ -294,32 +293,32 @@ $("#shopMore").click(function(){
 						  $("#formfield").toggle();
 						  $("#cart_items_description").toggle();});
 						  $("#form_final").submit(function(){
-							 
+
 							  var value= $("#captchaField").val();
 							  alert(value);
 							  $.post("update_cart.php",{value:value},function(data){
 								  alert("yes");
 								/*if(data==1){
-									
+
 									  return true;
-									  
+
 								  } else {
 									  	$("#captchaError").dialog({
 			  title:'Error',
-			  buttons: { "OK": function() { $(this).dialog("close"); 
+			  buttons: { "OK": function() { $(this).dialog("close");
 										  }
 						}
-						
+
 				   });return true;
 
 
 
 								  }
-							  
+
 							  */}); });
-						  </script>    
-			  
-          
+						  </script>
+
+
       </div>
     </div>
   </div>
@@ -359,7 +358,7 @@ Numbers: +917417687975 , +919557509534, +917417505986
 </p>
 
   </div>
-</div> 
+</div>
 </a>
 
 <div class="full-width dark-grey flat footer" id="footertext">
@@ -381,7 +380,7 @@ Numbers: +917417687975 , +919557509534, +917417505986
   </div>
 </div>
 </div>
-<script> 
+<script>
 $("#contactus").toggle();
 $("#menu-item-16").click(function(){ $("#contactus").toggle();});
 </script>
@@ -390,8 +389,8 @@ $(document).tooltip({
 	  items:'.social ul li,#captchafield',
 	  show:500,
 	  show:'',
-	  hide:500}); 
-	 
+	  hide:500});
+
 </script>
 
 </body>
