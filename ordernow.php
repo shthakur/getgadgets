@@ -8,7 +8,7 @@
 	<title>Getgadgets.com</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="style.css" />
-    
+
   <script type='text/javascript' src='jquery.js'></script>
   <script type="text/javascript" src="rkdl.js"></script>
 
@@ -37,8 +37,8 @@
 	margin: 0.5em 0;
 }
 
-.fve-video-wrapper iframe,  
-.fve-video-wrapper object,  
+.fve-video-wrapper iframe,
+.fve-video-wrapper object,
 .fve-video-wrapper embed {
 	position: absolute;
 	display: block;
@@ -76,15 +76,15 @@ span.work-section {
 		}
 	</style>
 
-	
+
 	<!--[if lt IE 9]>
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<link rel="stylesheet" href="content/themes/rkdl/css/ie8.css" />
 	<script src="content/themes/rkdl/js/plugins/swipe_ie.js"></script>
   <script src="content/themes/rkdl/js/ie.js"></script>
 	<![endif]-->
-	
-	
+
+
 
 </head>
 
@@ -139,7 +139,7 @@ Our Price: Rs 15,000, Market Price: Rs 19,000" ourprice="15,000" marketprice="19
     <img class="item" src="products_images/Apple Macbook Gold.jpg" alt="Apple Gold Laptop" title="Apple Macbook Gold" width="150px" height="250px" tooltip="Rather than polish another Gold iPad , we decided to up ... and machine cut with a black acrylic layer to match the black Apple logo. .<br/>
 Our Price: Rs 5,00,000, Market Price: Rs 7,00,000" ourprice="6,00,000" marketprice="7,00,000"/>
     <img class="addtocartbutton" src="products_images/addtocart.png" alt="Add to Cart">
-    
+
     </div>
     <div class="item_image">
     <img class="item" src="products_images/Apple Ipod Mini.jpg" alt="Apple ipod" title="Apple Ipod Mini" tooltip="The colorful, clip-and-go iPod shuffle is perfect for every wardrobe. With built-in buttons and VoiceOver, you have access to your favorite songs, playlists, and Genius Mixes wherever you go..<br/>
@@ -170,7 +170,7 @@ Our Price: 25000, Market Price: Rs26987" ourprice="25000" marketprice="26,987"/>
     </div>
     </div>
 </div>
-<button class="red_button" id="checkout_button2">Checkout!</button> 
+<button class="red_button" id="checkout_button2">Checkout!</button>
 
 
 <div class="full-width red">
@@ -179,10 +179,10 @@ Our Price: 25000, Market Price: Rs26987" ourprice="25000" marketprice="26,987"/>
       <div id="test-slider" class="swiper">
         <ul class="swipe-wrap">
           <li class="testimonial">
-              
+
               <blockquote style="font-size:22px;">
                 <p>Add items to your carts on the air, by clicking on the items add to cart to button. Number of times you click, that times item is added to the cart. Checkout by clicking on checkout button</p>
-                
+
                </blockquote>
           </li>
         </ul>
@@ -201,7 +201,7 @@ Numbers: +917832075226
 </p>
 
   </div>
-</div> 
+</div>
 </a>
 
 </div>
@@ -261,7 +261,7 @@ $(document).tooltip({
 	  items:'.social ul li',
 	  show:500,
 	  show:'',
-	  hide:500}); 
+	  hide:500});
 </script>
 <script>
 
@@ -272,7 +272,7 @@ $.post("update_cart.php",{returnJSON:yes},function(stringData){
 	data= JSON.parse(stringData);
 	$.each(data,function(i){
 		if(i!='j' && i!="passPhrase"){
-		items[m]=new Object();	
+		items[m]=new Object();
 		items[m].name=data[i]["name"];
 		items[m].count=data[i]["count"];
 		m++;
@@ -306,34 +306,33 @@ $(".addtocartbutton").click(function(){
 	$("#count").html(++count);
 	var title= $(this).parent().find("img").attr("title");
 	var ourprice=$(this).parent().find("img").attr("ourprice");
-	$.post("update_cart.php",{title:title,ourprice:ourprice},function(){});
+	$.post("update_cart.php",{title:title,ourprice:ourprice});
 	$("#verify_add").dialog({
 			  title:title+" added to cart.",
-			  buttons: { "OK": function() { $(this).dialog("close"); 
+			  buttons: { "OK": function() { $(this).dialog("close");
 										  }
 						}
 				   });
-				   
-			var isThere=-1;	   
+
+			var isThere=-1;
 			for(var k=0;k<items.length;k++){
 				if(items[k].name==title) isThere=k;
 			}
-			
 			if(isThere == -1){
 				items[j]=new Object();
 				items[j].name=title;
 				items[j].count=1;
-				
+
 			} else {
 				items[isThere].count++;
 			}
 			});
-	
-			
+
+
 	$("#cart").click(function(){
 		if(isCartInfoOpen==false){
 		for(var i=0;i<items.length;i++){
-			
+
 			var name= items[i].name
 			var countname =items[i].count;
 			var img= $('<img src="products_images/'+name+'.jpg" alt="'+name+'" width="30px" height="30px">');
@@ -341,7 +340,7 @@ $(".addtocartbutton").click(function(){
 			var checkout_button=$('<img src="products_images/checkoutButton.png" alt="Checkout" id="checkoutButtonImg"/>');
 			$("#cart_info").append(img);
 			$("#cart_info").append(paraText);
-			
+
 			$("#cart_info span").css("color","#fff");
 			$(".item_quantity").css({
 				"position":"absolute",
@@ -357,21 +356,21 @@ $(".addtocartbutton").click(function(){
 		$("#checkoutButtonImg").click(function(){
 			window.location.href="checkout.php";
 		});
-		$("#cart_info").toggle(); 
-		isCartInfoOpen=true; 
+		$("#cart_info").toggle();
+		isCartInfoOpen=true;
 		  }else {
 			$("#cart_info").html('');
 			$("#cart_info").toggle();
 			isCartInfoOpen=false;
 		}
 	});
-	$(".item").tooltip({ 
+	$(".item").tooltip({
 	  show:500,
 	  content: function(){return $(this).attr("tooltip")},
 	  show:'',
 	  hide:500})
 
-		
+
 </script>
 </body>
 </html>

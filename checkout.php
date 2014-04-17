@@ -165,7 +165,6 @@ span.work-section {
     </tr>
     <?php $total=0; foreach($_SESSION['basket'] as $i){
 		if(is_int($i)) continue;
-
 		echo '<tr><td><p><img src="products_images/'.$i['name'].'.jpg" width="50px" height="50px"></td><td>'.$i['name'].'</td><td>'.'<input type="number" min = "1" size="10" value="'.$i['count'].'" class="quantity_count" name="'.$i['name'].'"></td><td class="price">'.$i['count']*$i['ourprice'].'</td><td class="last_child"><input type="hidden" class ="hiddenDelete" title="'.$i['name'].'"><img src="images/delete.png" alt="Delete" class="deleteButton"/></td></tr>';
 		$total+=$i['count']*$i['ourprice'];
 	}
@@ -295,9 +294,7 @@ $("#shopMore").click(function(){
 						  $("#form_final").submit(function(){
 
 							  var value= $("#captchaField").val();
-							  alert(value);
 							  $.post("update_cart.php",{value:value},function(data){
-								  alert("yes");
 								/*if(data==1){
 
 									  return true;
