@@ -196,7 +196,8 @@ $(".quantity_count").hover(
 		initial_count =parseInt($(this).val(),10);
 	}, //Hover in
 
-	function(){ final_count = parseInt($(this).val(),10);
+	function(){ 
+		final_count = parseInt($(this).val(),10);
 		var cost= $(this).parent().parent().find(".price").html()
 		cost= cost/initial_count;
 		single_cost = cost;
@@ -218,12 +219,11 @@ $(".deleteButton").click(function(){
 	$(this).parent().parent().remove();
 	if(!$(".hiddenDelete").length)
 		$("#urcart").remove();
-	}
 	var cost= $(this).parent().parent().find(".price").html();
 	var total = parseInt($("#totaltd").html(),10) - cost;
 	$("#totaltd").html(total);
 });
-          </script>
+</script>
         </table>
 	  </div>
       <br/>
