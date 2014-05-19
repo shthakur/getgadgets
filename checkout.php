@@ -165,7 +165,25 @@ span.work-section {
     </tr>
     <?php $total=0; foreach($_SESSION['basket'] as $i){
 		if(is_int($i)) continue;
-		echo '<tr><td><p><img src="products_images/'.$i['name'].'.jpg" width="50px" height="50px"></td><td>'.$i['name'].'</td><td>'.'<input type="number" min = "1" size="10" value="'.$i['count'].'" class="quantity_count" name="'.$i['name'].'"></td><td class="price">'.$i['count']*$i['ourprice'].'</td><td class="last_child"><input type="hidden" class ="hiddenDelete" title="'.$i['name'].'"><img src="images/delete.png" alt="Delete" class="deleteButton"/></td></tr>';
+		echo '<tr>
+				<td>
+					<p>
+					<img src="products_images/'.$i['name'].'.jpg" width="50px" height="50px">
+				</td>
+				<td>'
+					.$i['name']
+				.'</td>
+				<td>'.
+					'<input type="number" min = "1" size="10" value="'.$i['count'].'" class="quantity_count" name="'.$i['name'].'">
+				</td>
+				<td class="price">'.
+					$i['count']*$i['ourprice'].
+				'</td>
+				<td class="last_child">
+					<input type="hidden" class ="hiddenDelete" title="'.$i['name'].'">
+					<img src="images/delete.png" alt="Delete" class="deleteButton"/>
+				</td>
+			</tr>';
 		$total+=$i['count']*$i['ourprice'];
 	}
 ?>
@@ -173,44 +191,36 @@ span.work-section {
 <script>
 var initial_count,final_count;
 $(".quantity_count").hover(
-function(){initial_count =parseInt($(this).val(),10);},
-function(){ final_count = parseInt($(this).val(),10);
-	//alert(initial_count+" "+final_count);
-	//var cost= parseInt($(this).parent().find(".price").html(),10);alert(cost);
-	var cost= $(this).parent().parent().find(".price").html()
-	cost= cost/initial_count;
-	single_cost = cost;
-	cost=cost*final_count;
-	//alert(cost);
-	var total = parseInt($("#totaltd").html(),10);
-	total += (final_count - initial_count) * single_cost;
-	$("#totaltd").html(total);
-	$(this).parent().parent().find(".price").html(cost);
-	if(final_count!= initial_count){
-		var title=$(this).attr("name");
-		$.post("update_cart.php",{final_count:final_count,title:title},function(){
-			});
+	
+	function(){
+		initial_count =parseInt($(this).val(),10);
+	}, //Hover in
+
+	function(){ final_count = parseInt($(this).val(),10);
+		var cost= $(this).parent().parent().find(".price").html()
+		cost= cost/initial_count;
+		single_cost = cost;
+		cost=cost*final_count;
+		var total = parseInt($("#totaltd").html(),10);
+		total += (final_count - initial_count) * single_cost;
+		$("#totaltd").html(total);
+		$(this).parent().parent().find(".price").html(cost);
+		if(final_count!= initial_count){
+			var title=$(this).attr("name");
+			$.post("update_cart.php",{final_count:final_count,title:title});
 		}
-	}
+	} //Hover out
 );
-$(".deleteButton").css({
-			"width":"45px",
-			"height":"45px",
-			"cursor":"pointer"
-		});
-;
+
 $(".deleteButton").click(function(){
 	var name = $(this).parent().find(".hiddenDelete").attr('title');
-	$.post("update_cart.php",{itemName:name},function(){
-	});
+	$.post("update_cart.php",{itemName:name});
 	$(this).parent().parent().remove();
-	if($(".hiddenDelete").length){}else{
+	if(!$(".hiddenDelete").length)
 		$("#urcart").remove();
 	}
-	var total= 0;
-	$(".price").each(function(){
-		total+=parseInt($(this).html(),10);
-	});
+	var cost= $(this).parent().parent().find(".price").html();
+	var total = parseInt($("#totaltd").html(),10) - cost;
 	$("#totaltd").html(total);
 });
           </script>
