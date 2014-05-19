@@ -37,9 +37,10 @@ if(isset($_POST['returnJSON'])){
 		if($_SESSION['basket'][$i]['name']==$_POST['itemName']){
 			unset($_SESSION['basket'][$i]);
 			break;
-			}
-		$i++;
 		}
+		$i++;
+	}
+	
 } else {
 	$isThere=-1;
 	$i=0;
