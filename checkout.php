@@ -171,30 +171,27 @@ span.work-section {
 ?>
 <tr><td colspan="3">Total</td><td id="totaltd"><?php echo $total; ?></td><td colspan="2"></td></tr>
 <script>
-var intial_count,final_count;
+var initial_count,final_count;
 $(".quantity_count").hover(
-function(){intial_count =parseInt($(this).val(),10);},
+function(){initial_count =parseInt($(this).val(),10);},
 function(){ final_count = parseInt($(this).val(),10);
-//alert(intial_count+" "+final_count);
-//var cost= parseInt($(this).parent().find(".price").html(),10);alert(cost);
-var cost= $(this).parent().parent().find(".price").html()
-cost= cost/intial_count;
-cost=cost*final_count;
-//alert(cost);
-
-var total= 0;
-	$(".price").each(function(){
-
-		total+=parseInt($(this).html(),10);
-	});
+	//alert(initial_count+" "+final_count);
+	//var cost= parseInt($(this).parent().find(".price").html(),10);alert(cost);
+	var cost= $(this).parent().parent().find(".price").html()
+	cost= cost/initial_count;
+	single_cost = cost;
+	cost=cost*final_count;
+	//alert(cost);
+	var total = parseInt($("#totaltd").html(),10);
+	total += (final_count - initial_count) * single_cost;
 	$("#totaltd").html(total);
-$(this).parent().parent().find(".price").html(cost);
-if(final_count!= intial_count){
-	var title=$(this).attr("name");
-	$.post("update_cart.php",{final_count:final_count,title:title},function(){
-		});
+	$(this).parent().parent().find(".price").html(cost);
+	if(final_count!= initial_count){
+		var title=$(this).attr("name");
+		$.post("update_cart.php",{final_count:final_count,title:title},function(){
+			});
+		}
 	}
-}
 );
 $(".deleteButton").css({
 			"width":"45px",
