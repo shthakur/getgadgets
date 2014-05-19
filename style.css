@@ -3506,3 +3506,8 @@ margin:0 auto;
 	position:relative;
 	right:-250px;
 }
+.deleteButton{
+  width:45px;
+  height:45px;
+  cursor:pointer;
+}
